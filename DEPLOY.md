@@ -1,5 +1,7 @@
 # Deploying to Vercel
 
+<!-- redeploy trigger -->
+
 ## Required dashboard settings
 
 | Setting | Value |
