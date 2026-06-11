@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="maze-bg" x1="96" y1="96" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#maze-bg)"/>
+  <path d="M128 128h128v96h-64v160h-64V128zm256 0h64v256h-64v-96h-64v96h-64V128h128v96h-64v32h64z" stroke="#fff" stroke-width="28" stroke-linejoin="round"/>
+  <path d="M256 128v96h-64v64h128v64h-64" stroke="#fff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="256" cy="256" r="22" fill="#fff"/>
+</svg>

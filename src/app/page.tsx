@@ -1,66 +1,71 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+import MazeLogo from "@/components/MazeLogo";
+import styles from "./landing.module.css";
+import { auth } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
+  const ctaDest = session ? "/dashboard" : "/signup";
+  const loginDest = session ? "/dashboard" : "/login";
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      <nav className={styles.nav}>
+        <div className={styles.navInner}>
+          <div className={styles.brand}>
+            <div className={styles.brandIconWrapper}>
+              <MazeLogo size={18} className={styles.brandIcon} />
+            </div>
+            <span className={styles.brandText}>maze</span>
+          </div>
+          <div className={styles.navLinks}>
+            {!session && (
+              <Link href={loginDest} className={styles.loginBtn}>
+                Sign In
+              </Link>
+            )}
+            <Link href={ctaDest} className={styles.navCta}>
+              {session ? "Go to Dashboard" : "Get started free"}
+            </Link>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </nav>
+
+      <main className={styles.main}>
+        <div className={styles.hero}>
+          <h1 className={styles.title}>
+            Strip fluff. <br />
+            <span className={styles.highlight}>Ship signal.</span>
+          </h1>
+          <p className={styles.description}>
+            AI-generated resumes are full of generic buzzwords that recruiters hate. 
+            Instantly clean up your resume, sound like a human, and land more interviews.
+          </p>
+          <div className={styles.ctaWrapper}>
+            <Link href={ctaDest} className={styles.primaryBtn}>
+              Audit Your Resume — Free
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+          
+          <div className={styles.features}>
+            <div className={styles.feature}>
+              <CheckCircle2 className={styles.featureIcon} size={16} />
+              <span>Instantly removes AI buzzwords</span>
+            </div>
+            <div className={styles.feature}>
+              <CheckCircle2 className={styles.featureIcon} size={16} />
+              <span>Improves readability & impact</span>
+            </div>
+            <div className={styles.feature}>
+              <CheckCircle2 className={styles.featureIcon} size={16} />
+              <span>100% free, no credit card</span>
+            </div>
+          </div>
         </div>
       </main>
     </div>
   );
 }
+
