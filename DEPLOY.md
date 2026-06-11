@@ -32,7 +32,10 @@ Optional: `AUTH_TRUST_HOST=true` (also enabled in code via `trustHost: true`).
 2. **Key:** `AUTH_SECRET`  
    **Value:** run `openssl rand -base64 32` locally and paste the result.  
    **Environments:** check **Production** and **Preview**.
-3. **Deployments** → latest → **⋯** → **Redeploy** (required — env vars are not applied to old deployments).
+3. **Deployments** → latest → **⋯** → **Redeploy** (required — saving a variable does **not** update live deployments).
+4. Confirm the **new** deployment build log does **not** show `[maze] AUTH_SECRET is not set`. If it does, the variable is missing for that project or environment (Production vs Preview).
+
+Also add `DATABASE_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GEMINI_API_KEY`, and `AUTH_URL` — `AUTH_SECRET` alone is not enough for full sign-in.
 
 After adding `DATABASE_URL`, apply schema once:
 
