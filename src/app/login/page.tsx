@@ -24,6 +24,10 @@ export default function LoginPage() {
       if (err) {
         if (err === 'OAuthAccountNotLinked') {
           setError('This email is already associated with an email/password account. Please sign in with your email and password.');
+        } else if (err === 'Configuration') {
+          setError('Sign-in is not configured on the server. In Vercel, set AUTH_SECRET and DATABASE_URL, then redeploy.');
+        } else if (err === 'Callback') {
+          setError('Sign-in callback failed. Check DATABASE_URL (run prisma db push) and Google OAuth redirect URIs.');
         } else {
           setError('Authentication failed. Please try again.');
         }

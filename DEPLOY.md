@@ -18,7 +18,7 @@ Set in Vercel → **Settings → Environment Variables**:
 | Variable | Required | Notes |
 |----------|----------|--------|
 | `DATABASE_URL` | Yes | Neon/Postgres connection string (`?sslmode=require` for Neon) |
-| `AUTH_SECRET` | Yes | `openssl rand -base64 32` |
+| `AUTH_SECRET` | **Yes** | `openssl rand -base64 32` — without this, logs show `MissingSecret` and sign-in returns 500 |
 | `AUTH_URL` | Yes (prod) | `https://<your-production-domain>.vercel.app` — no trailing slash |
 | `GOOGLE_CLIENT_ID` | For Google login | |
 | `GOOGLE_CLIENT_SECRET` | For Google login | |
