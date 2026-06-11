@@ -1,37 +1,43 @@
-import { handlers } from "@/lib/auth";
+import { handlers, resolveAuthSecret } from "@/lib/auth";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function assertAuthEnv() {
-  const missing: string[] = [];
-  if (!process.env.AUTH_SECRET && !process.env.NEXTAUTH_SECRET) {
-    missing.push("AUTH_SECRET");
-  }
-  if (!process.env.DATABASE_URL) {
-    missing.push("DATABASE_URL");
-  }
-  if (missing.length === 0) return null;
-
+function missingSecretResponse() {
   return NextResponse.json(
     {
-      error: "Auth is not configured on the server.",
-      missing,
-      hint: "Add these in Vercel → Settings → Environment Variables, then redeploy.",
+      error: "MissingSecret",
+      message:
+        "AUTH_SECRET is not available in this deployment. In Vercel: Settings → Environment Variables → add AUTH_SECRET (Production + Preview), then Redeploy.",
+      checked: {
+        AUTH_SECRET: Boolean(process.env.AUTH_SECRET),
+        NEXTAUTH_SECRET: Boolean(process.env.NEXTAUTH_SECRET),
+        AUTH_SECRET_1: Boolean(process.env.AUTH_SECRET_1),
+      },
     },
     { status: 503 }
   );
 }
 
 export async function GET(request: NextRequest) {
-  const configError = assertAuthEnv();
-  if (configError) return configError;
+  if (!resolveAuthSecret()) return missingSecretResponse();
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json(
+      { error: "DATABASE_URL is not set in environment variables." },
+      { status: 503 }
+    );
+  }
   return handlers.GET(request);
 }
 
 export async function POST(request: NextRequest) {
-  const configError = assertAuthEnv();
-  if (configError) return configError;
+  if (!resolveAuthSecret()) return missingSecretResponse();
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json(
+      { error: "DATABASE_URL is not set in environment variables." },
+      { status: 503 }
+    );
+  }
   return handlers.POST(request);
 }
