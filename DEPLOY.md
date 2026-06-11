@@ -26,6 +26,14 @@ Set in Vercel → **Settings → Environment Variables**:
 
 Optional: `AUTH_TRUST_HOST=true` (also enabled in code via `trustHost: true`).
 
+### Fix `MissingSecret` (500 on `/api/auth/*`)
+
+1. Vercel → **maze-resume** → **Settings** → **Environment Variables** → **Add**.
+2. **Key:** `AUTH_SECRET`  
+   **Value:** run `openssl rand -base64 32` locally and paste the result.  
+   **Environments:** check **Production** and **Preview**.
+3. **Deployments** → latest → **⋯** → **Redeploy** (required — env vars are not applied to old deployments).
+
 After adding `DATABASE_URL`, apply schema once:
 
 ```bash
