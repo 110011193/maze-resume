@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "prisma": {
-    "schema": "schema.prisma"
+    "schema": "prisma/schema.prisma"
   },
   "scripts": {
     "dev": "next dev",
-    "postinstall": "node scripts/ensure-schema.mjs && prisma generate",
-    "build": "node scripts/ensure-schema.mjs && prisma generate && next build",
+    "postinstall": "prisma generate",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -25,7 +25,7 @@
     "next": "16.2.9",
     "next-auth": "^5.0.0-beta.31",
     "pg": "^8.21.0",
-    "prisma": "file:./packages/prisma-shim",
+    "prisma": "^7.8.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.4.3"
