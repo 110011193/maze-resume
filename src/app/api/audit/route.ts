@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+function getAI() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('GEMINI_API_KEY is not configured');
+  }
+  return new GoogleGenAI({ apiKey });
+}
 
 const SYSTEM_PROMPT = `You are the core AI processing engine for "maze." Your purpose is to instantly strip generic AI-generated buzzwords from a resume and output a finalized, high-signal, engineering-focused version that is ready for production.
 
@@ -35,7 +41,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'GEMINI_API_KEY is not configured on the server.' }, { status: 500 });
     }
 
-    const response = await ai.models.generateContent({
+    const response = await getAI().models.generateContent({
       model: 'gemini-2.5-flash',
       contents: resumeText,
       config: {

@@ -1,24 +1,25 @@
 # Deploying to Vercel
 
-## Root Directory
+## Required dashboard settings
 
-This app’s `package.json`, `prisma/`, and `next.config.ts` live at the **repository root**, not inside `src/`.
+| Setting | Value |
+|--------|--------|
+| **Root Directory** | **Empty** (recommended). If set to `src`, `src/vercel.json` runs install/build from the repo root. |
+| **Framework Preset** | **Next.js** |
+| **Output Directory** | **Empty** (override off). Do **not** set `public` — that is for static sites, not Next.js. |
+| **Install Command** | Override **off**, or `npm install` |
+| **Build Command** | Override **off**, or `npm run build` |
 
-**Recommended:** Vercel → **Settings → General → Root Directory** → leave **empty**.
-
-If Root Directory is set to `src`, `src/vercel.json` runs install/build from the repo root (`cd .. && npm …`).
+`package.json`, `prisma/`, `next.config.ts`, and `public/` live at the **repository root**.
 
 ## Environment variables
 
-Copy from `.env.example`: `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GEMINI_API_KEY`.
+Set in Vercel → **Settings → Environment Variables** (see `.env.example`):
 
-Apply the database schema once (e.g. `npx prisma db push` with production `DATABASE_URL`).
+- `DATABASE_URL`
+- `AUTH_SECRET`
+- `AUTH_URL` → `https://<your-vercel-domain>.vercel.app`
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`
+- `GEMINI_API_KEY`
 
-## Build settings
-
-Use defaults or:
-
-- **Install Command:** `npm install` (or override off)
-- **Build Command:** `npm run build` (or override off)
-
-Do not use a custom `prisma generate && next build` unless it matches `package.json` `build`.
+Apply the database schema once, e.g. `npx prisma db push` with production `DATABASE_URL`.
