@@ -1,8 +1,10 @@
 import { isAuthSecretFromEnv } from "@/lib/auth";
+import { ensureAuthEnv } from "@/lib/auth-secret";
 import { NextResponse } from "next/server";
 
 /** Safe env check for production debugging (no secret values exposed). */
 export async function GET() {
+  ensureAuthEnv();
   return NextResponse.json({
     ok: Boolean(process.env.DATABASE_URL),
     authSecretFromEnv: isAuthSecretFromEnv(),
